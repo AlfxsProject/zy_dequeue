@@ -5,8 +5,8 @@ set(CMAKE_C_STANDARD 23)
 
 include_directories(zyalloc)
 
-file(GLOB_RECURSE SOURCES LIST_DIRECTORIES true *.h *.c)
+file(GLOB_RECURSE SOURCES LIST_DIRECTORIES true "zyalloc/*.h" "zyalloc/*.c")
 
-set(SOURCES ${SOURCES})
+set(SOURCES ${SOURCES} dequeue.h dequeue.c)
 
 add_library(${CMAKE_PROJECT_NAME} STATIC ${SOURCES})
