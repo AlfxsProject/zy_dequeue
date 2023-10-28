@@ -1,0 +1,3 @@
+[submodule "zyalloc"]
+	path = zyalloc
+	url = git@github.com:AlfxsProject/zyalloc.git
