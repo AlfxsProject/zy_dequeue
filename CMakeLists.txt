@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.26)
-project(dequeue C)
+project(zydequeue C)
 
 set(CMAKE_C_STANDARD 23)
 
@@ -7,6 +7,6 @@ include_directories(zyalloc)
 
 file(GLOB_RECURSE SOURCES LIST_DIRECTORIES true "zyalloc/*.h" "zyalloc/*.c")
 
-set(SOURCES ${SOURCES} dequeue.h dequeue.c)
+set(SOURCES ${SOURCES} zydequeue.h zydequeue.c)
 
 add_library(${CMAKE_PROJECT_NAME} STATIC ${SOURCES})
