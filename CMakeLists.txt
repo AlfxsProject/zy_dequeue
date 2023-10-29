@@ -2,6 +2,7 @@ cmake_minimum_required(VERSION 3.26)
 project(zy_dequeue C)
 
 set(CMAKE_C_STANDARD 23)
+set(CMAKE_C_STANDARD_REQUIRED True)
 
 include_directories(zy_alloc)
 
