@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 #pragma once
-#include <zyalloc.h>
+#include <zy_alloc.h>
 
 typedef struct zy_dequeue_s zy_dequeue_t;
 
@@ -32,7 +32,7 @@ extern "C"
 {
 #endif
 
-    __attribute__((nonnull)) int zy_dequeue_construct(zy_dequeue_t **dequeue, const zyalloc_t *alloc);
+    __attribute__((nonnull)) int zy_dequeue_construct(zy_dequeue_t **dequeue, const zy_alloc_t *alloc);
     __attribute__((nonnull)) void zy_dequeue_destruct(zy_dequeue_t **dequeue);
     __attribute__((nonnull)) void zy_dequeue_clear(zy_dequeue_t *dequeue);
     __attribute__((nonnull)) int zy_dequeue_push_first(zy_dequeue_t *dequeue, const zy_opaque_t *opaque);

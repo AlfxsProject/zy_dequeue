@@ -19,23 +19,23 @@
 
 typedef struct zy_dequeue_bx_s
 {
-    const zyalloc_t *const alloc;
+    const zy_alloc_t *const alloc;
     struct zy_dequeue_bx_s *previous, *next;
     const zy_opaque_t opaque;
 } zy_dequeue_bx_t;
 
 struct zy_dequeue_s
 {
-    const zyalloc_t *const alloc;
+    const zy_alloc_t *const alloc;
     zy_dequeue_bx_t *first, *last;
     atomic_size_t size;
 };
 
-__attribute__((nonnull)) static int zy_dequeue_bx_construct(zy_dequeue_bx_t **bx, const zyalloc_t *alloc,
+__attribute__((nonnull)) static int zy_dequeue_bx_construct(zy_dequeue_bx_t **bx, const zy_alloc_t *alloc,
                                                             const zy_opaque_t *opaque)
 {
-    int r = zymalloc(alloc, sizeof(zy_dequeue_bx_t) + opaque->size, (void **)bx);
-    if (r == ZYALLOC_OK)
+    int r = zy_malloc(alloc, sizeof(zy_dequeue_bx_t) + opaque->size, (void **)bx);
+    if (r == ZY_OK)
     {
         const zy_dequeue_bx_t bx_init = {.alloc = alloc, .previous = nullptr, .next = nullptr, {.size = opaque->size}};
         memcpy((void *)*bx, (void *)&bx_init, sizeof(zy_dequeue_bx_t));
@@ -48,14 +48,14 @@ __attribute__((nonnull)) static void zy_dequeue_bx_destruct(zy_dequeue_bx_t **bx
 {
     if (*bx != nullptr)
     {
-        zyfree((*bx)->alloc, (void **)bx);
+        zy_free((*bx)->alloc, (void **)bx);
     }
 }
 
-int zy_dequeue_construct(zy_dequeue_t **dequeue, const zyalloc_t *alloc)
+int zy_dequeue_construct(zy_dequeue_t **dequeue, const zy_alloc_t *alloc)
 {
-    int r = zymalloc(alloc, sizeof(zy_dequeue_t), (void **)dequeue);
-    if (r == ZYALLOC_OK)
+    int r = zy_malloc(alloc, sizeof(zy_dequeue_t), (void **)dequeue);
+    if (r == ZY_OK)
     {
         const zy_dequeue_t dequeue_init = {.alloc = alloc, .first = nullptr, .last = nullptr, .size = 0};
         memcpy((void *)*dequeue, &dequeue_init, sizeof(zy_dequeue_t));
@@ -68,7 +68,7 @@ void zy_dequeue_destruct(zy_dequeue_t **dequeue)
     if (*dequeue != nullptr)
     {
         zy_dequeue_clear(*dequeue);
-        zyfree((*dequeue)->alloc, (void **)dequeue);
+        zy_free((*dequeue)->alloc, (void **)dequeue);
     }
 }
 
@@ -90,7 +90,7 @@ int zy_dequeue_push_first(zy_dequeue_t *dequeue, const zy_opaque_t *opaque)
 {
     zy_dequeue_bx_t *bx;
     int r = zy_dequeue_bx_construct(&bx, dequeue->alloc, opaque);
-    if (r == ZYALLOC_OK)
+    if (r == ZY_OK)
     {
         if (dequeue->size != 0)
         {
@@ -112,7 +112,7 @@ int zy_dequeue_push_last(zy_dequeue_t *dequeue, const zy_opaque_t *opaque)
 {
     zy_dequeue_bx_t *bx;
     int r = zy_dequeue_bx_construct(&bx, dequeue->alloc, opaque);
-    if (r == ZYALLOC_OK)
+    if (r == ZY_OK)
     {
         if (dequeue->size != 0)
         {

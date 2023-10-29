@@ -89,3 +89,4 @@ dkms.conf
 ### User Changes
 # Don't Add Jetbrains Folder
 .idea
+cmake-build-debug
