@@ -19,14 +19,14 @@
 
 typedef struct zy_dequeue_bx_s
 {
-    const zy_alloc_t *const alloc;
+    const zy_alloc_t *alloc;
     struct zy_dequeue_bx_s *previous, *next;
-    const zy_opaque_t opaque;
+    zy_opaque_t opaque;
 } zy_dequeue_bx_t;
 
 struct zy_dequeue_s
 {
-    const zy_alloc_t *const alloc;
+    const zy_alloc_t *alloc;
     zy_dequeue_bx_t *first, *last;
     atomic_size_t size;
 };
@@ -37,9 +37,10 @@ __attribute__((nonnull)) static int zy_dequeue_bx_construct(zy_dequeue_bx_t **bx
     int r = zy_malloc(alloc, sizeof(zy_dequeue_bx_t) + opaque->size, (void **)bx);
     if (r == ZY_OK)
     {
-        const zy_dequeue_bx_t bx_init = {.alloc = alloc, .previous = nullptr, .next = nullptr, {.size = opaque->size}};
-        memcpy((void *)*bx, (void *)&bx_init, sizeof(zy_dequeue_bx_t));
-        memcpy(((void *)*bx) + sizeof(zy_dequeue_bx_t), (void *)&opaque->data, opaque->size);
+        (*bx)->alloc = alloc;
+        (*bx)->previous = nullptr;
+        (*bx)->next = nullptr;
+        memcpy((void *)&(*bx)->opaque, opaque, sizeof(zy_opaque_t));
     }
     return r;
 }
@@ -57,8 +58,10 @@ int zy_dequeue_construct(zy_dequeue_t **dequeue, const zy_alloc_t *alloc)
     int r = zy_malloc(alloc, sizeof(zy_dequeue_t), (void **)dequeue);
     if (r == ZY_OK)
     {
-        const zy_dequeue_t dequeue_init = {.alloc = alloc, .first = nullptr, .last = nullptr, .size = 0};
-        memcpy((void *)*dequeue, &dequeue_init, sizeof(zy_dequeue_t));
+        (*dequeue)->alloc = alloc;
+        (*dequeue)->first = nullptr;
+        (*dequeue)->last = nullptr;
+        (*dequeue)->size = 0;
     }
     return r;
 }
