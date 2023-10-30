@@ -20,7 +20,7 @@ typedef struct zy_dequeue_s zy_dequeue_t;
 
 #ifndef ZY_OPAQUE_TYPE
 #define ZY_OPAQUE_TYPE
-typedef struct opaque_s
+typedef struct zy_opaque_s
 {
     const size_t size;
     const unsigned char data[0];
